@@ -63,7 +63,7 @@ jobs:
           p = "android/app/src/main/AndroidManifest.xml"
           s = open(p, encoding="utf-8").read()
           if "screenOrientation" not in s:
-              s = s.replace("android:name=\".MainActivity\"", "android:name=\".MainActivity\" android:screenOrientation=\"sensorLandscape\"")
+              s = s.replace("android:name=\".MainActivity\"", "android:name=\".MainActivity\" android:screenOrientation=\"sensorPotrait\"")
           open(p, "w", encoding="utf-8").write(s)
           '
 
