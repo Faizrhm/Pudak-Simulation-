@@ -1,0 +1,8 @@
+{
+  "appId": "com.faizal.pt980410",
+  "appName": "PT980410 Simulation",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#0f172a"
+  }
+}

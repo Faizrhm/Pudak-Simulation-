@@ -1,0 +1,82 @@
+name: Build APK PUDAKPT980410
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ambil Kode Proyek
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Unduh Tailwind CSS agar APK 100% Offline
+        run: |
+          if grep -q "cdn.tailwindcss.com" www/index.html; then
+            curl -sL "https://cdn.tailwindcss.com" -o www/tailwind.js
+            python3 -c '
+            p = "www/index.html"
+            s = open(p, encoding="utf-8").read()
+            s = s.replace("https://cdn.tailwindcss.com", "tailwind.js")
+            open(p, "w", encoding="utf-8").write(s)
+            '
+          fi
+
+      - name: Install Capacitor & Buat Proyek Android
+        run: |
+          npm install
+          npx cap add android
+
+      - name: Pasang Logo Aplikasi Android
+        run: |
+          mkdir -p assets
+          SRC=""
+          if [ -f www/logo.png ]; then SRC="www/logo.png"; fi
+          if [ -z "$SRC" ] && [ -f www/logo.jpg ]; then SRC="www/logo.jpg"; fi
+          if [ -z "$SRC" ] && [ -f www/logo.jpeg ]; then SRC="www/logo.jpeg"; fi
+          if [ -n "$SRC" ]; then
+            if ! command -v convert >/dev/null 2>&1; then
+              sudo apt-get update && sudo apt-get install -y imagemagick
+            fi
+            convert "$SRC" -resize 1024x1024! assets/icon-only.png
+            convert "$SRC" -resize 2732x2732 -background "#0f172a" -gravity center -extent 2732x2732 assets/splash.png
+            npx capacitor-assets generate --android --iconBackgroundColor "#0f172a" --splashBackgroundColor "#0f172a"
+          fi
+
+      - name: Kunci Mode Layar Miring (Landscape)
+        run: |
+          python3 -c '
+          p = "android/app/src/main/AndroidManifest.xml"
+          s = open(p, encoding="utf-8").read()
+          if "screenOrientation" not in s:
+              s = s.replace("android:name=\".MainActivity\"", "android:name=\".MainActivity\" android:screenOrientation=\"sensorLandscape\"")
+          open(p, "w", encoding="utf-8").write(s)
+          '
+
+      - name: Sinkronisasi & Build File APK
+        run: |
+          npx cap sync android
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+          cp app/build/outputs/apk/debug/app-debug.apk ../PT980410_Simulation_v2.apk
+
+      - name: Upload File APK Siap Unduh
+        uses: actions/upload-artifact@v4
+        with:
+          name: PUDAK_PT980410_Simulation_v2_APK
+          path: PUDAK_PT980410_Simulation_v2.apk
