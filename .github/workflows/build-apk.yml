@@ -1,4 +1,4 @@
-name: Build APK PUDAKPT980410
+name: Build APK PT980410
 
 on:
   push:
@@ -73,10 +73,13 @@ jobs:
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
-          cp app/build/outputs/apk/debug/app-debug.apk ../PT980410_Simulation_v2.apk
+          mkdir -p ../apk_out
+          find app/build/outputs/apk/debug -name "*.apk" -exec cp {} ../apk_out/PT980410_Simulation_v2.apk \;
 
       - name: Upload File APK Siap Unduh
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: PUDAK_PT980410_Simulation_v2_APK
-          path: PUDAK_PT980410_Simulation_v2.apk
+          path: apk_out/PT980410_Simulation_v2.apk
+          if-no-files-found: warn
