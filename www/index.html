@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.5, viewport-fit=cover" />
   <title>PUDAK SCIENTIFIC PT980410 SIMULATION — faizal v2.0</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
@@ -11,13 +11,14 @@
       --pudak-teal: #114b3c;
       --pudak-orange: #e05224;
     }
-    * { box-sizing: border-box; user-select: none; -webkit-user-select: none; }
-    body {
+    * { box-sizing: border-box; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+    html, body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background-color: #0f172a;
       color: #f1f5f9;
       margin: 0;
-      height: 100vh;
+      width: 100%;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -76,7 +77,7 @@
       box-shadow: inset 0 0 0 2px rgba(52, 211, 153, 0.78) !important;
     }
 
-    /* Wrapper Modul Drag & Drop (tanpa z-index agar soket .jack tetap di atas kabel SVG) */
+    /* Wrapper Modul Drag & Drop */
     .module-slot {
       position: relative;
       flex-shrink: 0;
@@ -90,7 +91,7 @@
       box-shadow: -4px 0 0 0 #38bdf8;
     }
     .drag-bar {
-      height: 20px;
+      height: 22px;
       background: linear-gradient(90deg, #114b3c 0%, #1b6b56 100%);
       color: #e2e8f0;
       border-radius: 4px 4px 0 0;
@@ -105,15 +106,15 @@
     }
     .drag-bar:active { cursor: grabbing; }
     .drag-bar button {
-      background: rgba(15, 23, 42, 0.35);
+      background: rgba(15, 23, 42, 0.45);
       color: #fecdd3;
       border: none;
       border-radius: 3px;
-      padding: 0 5px;
+      padding: 0 6px;
       font-size: 10px;
       font-weight: 900;
       cursor: pointer;
-      line-height: 15px;
+      line-height: 16px;
     }
     .drag-bar button:hover {
       background: #e11d48;
@@ -156,13 +157,10 @@
     .screw.tl { top: 6px; left: 6px; }
     .screw.tr { top: 6px; right: 6px; }
 
-    /* =====================================================================
-       SOKET BANANA JACK — SELALU DI ATAS KABEL (z-index: 40 > #wire-svg: 20)
-       + AREA KLIK DIPERLEBAR (::after) AGAR MUDAH DIARAHKAN
-    ===================================================================== */
+    /* Soket Banana Jack */
     .jack {
-      width: 21px;
-      height: 21px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       position: relative;
       cursor: pointer;
@@ -176,8 +174,8 @@
     }
     .jack::before {
       content: '';
-      width: 10.5px;
-      height: 10.5px;
+      width: 11px;
+      height: 11px;
       border-radius: 50%;
       background: radial-gradient(circle at 40% 40%, #4b5563, #090b0e 72%);
       border: 1.5px solid rgba(255,255,255,0.35);
@@ -186,16 +184,16 @@
     .jack::after {
       content: '';
       position: absolute;
-      inset: -1px;
+      inset: -4px;
       border-radius: 50%;
     }
     .jack:hover {
-      transform: scale(1.25);
+      transform: scale(1.22);
       box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.95), 0 4px 10px rgba(0,0,0,0.65);
       z-index: 45;
     }
     .jack.selected {
-      transform: scale(1.28);
+      transform: scale(1.25);
       animation: jackPulse 0.85s infinite;
       z-index: 48;
     }
@@ -214,8 +212,8 @@
 
     /* Push Button 3D */
     .pb-housing {
-      width: 44px;
-      height: 44px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       background: linear-gradient(145deg, #334155, #0f172a);
       padding: 5px;
@@ -358,10 +356,7 @@
     .rotor-cw-1500  { animation: spinCW 0.48s linear infinite; transform-origin: center; }
     .rotor-ccw-1500 { animation: spinCCW 0.48s linear infinite; transform-origin: center; }
 
-    /* =====================================================================
-       LAYER KABEL SVG (z-index: 20, DI BAWAH SOKET .jack z-index: 40)
-       + AUTO TEMBUS SAAT TARIK KABEL & MODE TEMBUS KABEL [W]
-    ===================================================================== */
+    /* Layer Kabel SVG */
     #wire-svg {
       position: absolute;
       top: 0; left: 0;
@@ -373,7 +368,7 @@
     .wire-hit {
       fill: none;
       stroke: transparent;
-      stroke-width: 12;
+      stroke-width: 14;
       pointer-events: stroke;
       cursor: pointer;
     }
@@ -417,15 +412,12 @@
       to   { opacity: 1; }
     }
 
-    /* Saat menarik kabel dari soket asal -> kabel lama pudar & 100% tembus klik */
     #rack-board.wiring-mode #wire-svg {
       opacity: 0.32 !important;
     }
     #rack-board.wiring-mode .wire-hit {
       pointer-events: none !important;
     }
-
-    /* Mode Tembus Kabel manual [W] -> kabel sangat tipis & 100% tembus klik */
     #rack-board.wires-passthrough #wire-svg {
       opacity: 0.22 !important;
     }
@@ -433,7 +425,7 @@
       pointer-events: none !important;
     }
 
-    /* Drawer Katalog Sisi Kanan */
+    /* Drawer Katalog */
     #catalog-drawer {
       transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -471,6 +463,30 @@
       color: #e2e8f0;
     }
 
+    /* =====================================================================
+       PENYESUAIAN TATA LETAK MOBILE / ANDROID (LAYAR <= 820px)
+       Menjaga seluruh fungsi, ID, dan modul tetap 100% utuh.
+    ===================================================================== */
+    @media (max-width: 820px) {
+      #wiring-sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(88vw, 340px);
+        max-width: 88vw;
+        z-index: 45;
+      }
+      #catalog-drawer {
+        width: min(92vw, 360px);
+        max-width: 92vw;
+        z-index: 50;
+      }
+      #rack-viewport {
+        padding: 10px 10px 76px 10px;
+      }
+    }
+
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: #161f29; }
     ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
@@ -479,32 +495,29 @@
 </head>
 <body>
 
-  <!-- 0. LAYAR INTRO AWAL (ALA AFTER EFFECTS HOME SCREEN) -->
-  <div id="intro-screen" class="fixed inset-0 z-[100] flex flex-col justify-between p-6 sm:p-10 intro-grid-bg overflow-y-auto">
-    <!-- Header Intro -->
-    <div class="flex items-center justify-between gap-4 max-w-6xl w-full mx-auto">
-      <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-[#114b3c] border-2 border-emerald-400/70 flex items-center justify-center font-black text-white text-base shadow-lg">PS</div>
-        <div>
-          <div class="text-[11px] font-extrabold tracking-[0.26em] text-emerald-400 uppercase">PUDAK SCIENTIFIC VIRTUAL LAB</div>
-          <div class="text-xs text-slate-400">Simulator Pengawatan MML &amp; IDL • Format Proyek <span class="mono text-sky-300 font-bold">.faiz</span></div>
+  <!-- 0. LAYAR INTRO AWAL -->
+  <div id="intro-screen" class="fixed inset-0 z-[100] flex flex-col justify-between p-4 sm:p-8 intro-grid-bg overflow-y-auto">
+    <div class="flex items-center justify-between gap-3 max-w-6xl w-full mx-auto">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#114b3c] border-2 border-emerald-400/70 flex items-center justify-center font-black text-white text-sm sm:text-base shadow-lg shrink-0">PS</div>
+        <div class="min-w-0">
+          <div class="text-[10px] sm:text-[11px] font-extrabold tracking-[0.2em] text-emerald-400 uppercase truncate">PUDAK SCIENTIFIC VIRTUAL LAB</div>
+          <div class="text-[11px] sm:text-xs text-slate-400 truncate">Simulator Pengawatan MML &amp; IDL • Format <span class="mono text-sky-300 font-bold">.faiz</span></div>
         </div>
       </div>
-      <div id="intro-env-badge" class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-700 text-[11px] font-bold text-slate-300">
+      <div id="intro-env-badge" class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-700 text-[11px] font-bold text-slate-300 shrink-0">
         <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
         <span id="intro-env-text">Mode Web / Desktop Ready</span>
       </div>
     </div>
 
-    <!-- Konten Utama Intro -->
-    <div class="max-w-6xl w-full mx-auto my-auto py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-      <!-- Kolom Kiri: Judul & Aksi Utama -->
-      <div class="lg:col-span-5 space-y-5">
-        <div class="space-y-2">
-          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-orange-500/15 border border-orange-500/40 text-orange-300 text-[11px] font-extrabold tracking-wider uppercase">
+    <div class="max-w-6xl w-full mx-auto my-auto py-4 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+      <div class="lg:col-span-5 space-y-4">
+        <div class="space-y-1.5">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-orange-500/15 border border-orange-500/40 text-orange-300 text-[10.5px] font-extrabold tracking-wider uppercase">
             ⚡ Fundamental &amp; Installation Trainer
           </div>
-          <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+          <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
             PUDAK SCIENTIFIC<br/>
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-sky-400">PT980410 SIMULATION</span>
           </h1>
@@ -513,37 +526,36 @@
           </p>
         </div>
 
-        <div class="flex flex-col gap-2.5">
-          <button onclick="startNewProjectFromIntro()" class="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm shadow-lg shadow-emerald-950/60 border border-emerald-400/60 flex items-center justify-between transition">
+        <div class="flex flex-col gap-2">
+          <button onclick="startNewProjectFromIntro()" class="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-emerald-950/60 border border-emerald-400/60 flex items-center justify-between transition">
             <span>＋ Proyek Baru (Papan Bersih)</span>
-            <span class="text-[11px] font-semibold bg-black/25 px-2 py-0.5 rounded">1× Sumber 3Φ</span>
+            <span class="text-[10.5px] font-semibold bg-black/25 px-2 py-0.5 rounded">1× Sumber 3Φ</span>
           </button>
 
-          <button onclick="openProjectFile(true)" class="w-full py-3 px-4 rounded-xl bg-sky-700 hover:bg-sky-600 text-white font-extrabold text-sm border border-sky-400/50 flex items-center justify-between transition">
+          <button onclick="openProjectFile(true)" class="w-full py-2.5 px-4 rounded-xl bg-sky-700 hover:bg-sky-600 text-white font-extrabold text-xs sm:text-sm border border-sky-400/50 flex items-center justify-between transition">
             <span>📂 Buka File Proyek (.faiz)</span>
-            <span class="mono text-[11px] opacity-85">Ctrl+O</span>
+            <span class="mono text-[10.5px] opacity-85">Ctrl+O</span>
           </button>
 
           <button id="intro-autosave-btn" onclick="restoreLatestAutoSave()" class="hidden w-full py-2.5 px-4 rounded-xl bg-amber-600/20 hover:bg-amber-600/35 text-amber-200 font-bold text-xs border border-amber-500/50 flex items-center justify-between transition">
-            <span id="intro-autosave-text">↺ Pulihkan Auto-Save Terakhir</span>
-            <span class="text-[10px] font-extrabold text-amber-300">AUTO-SAVE</span>
+            <span id="intro-autosave-text" class="truncate">↺ Pulihkan Auto-Save Terakhir</span>
+            <span class="text-[10px] font-extrabold text-amber-300 shrink-0 ml-2">AUTO-SAVE</span>
           </button>
 
           <button onclick="startFullBoardFromIntro()" class="w-full py-2.5 px-4 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-300 font-bold text-xs border border-slate-700 flex items-center justify-between transition">
             <span>🧩 Mulai dengan Susunan Lengkap (MML + IDL)</span>
-            <span class="text-[10px] text-slate-400">21 Modul</span>
+            <span class="text-[10px] text-slate-400 shrink-0 ml-2">24 Modul</span>
           </button>
         </div>
       </div>
 
-      <!-- Kolom Kanan: Histori File Terbaru (Recent Projects) -->
-      <div class="lg:col-span-7 bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[430px]">
-        <div class="px-4 py-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
-          <div>
-            <h2 class="text-xs sm:text-sm font-extrabold text-white">🕘 File Terbaru (Recent .faiz)</h2>
-            <p class="text-[10.5px] text-slate-400">Klik proyek di bawah untuk langsung melanjutkan pengawatan</p>
+      <div class="lg:col-span-7 bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[360px] sm:max-h-[430px]">
+        <div class="px-4 py-2.5 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between gap-2">
+          <div class="min-w-0">
+            <h2 class="text-xs sm:text-sm font-extrabold text-white truncate">🕘 File Terbaru (Recent .faiz)</h2>
+            <p class="text-[10px] sm:text-[10.5px] text-slate-400 truncate">Klik proyek di bawah untuk langsung melanjutkan pengawatan</p>
           </div>
-          <button onclick="openProjectModal()" class="text-[11px] font-bold text-emerald-400 hover:text-emerald-300 px-2 py-1 rounded bg-slate-800/80 border border-slate-700">
+          <button onclick="openProjectModal()" class="text-[10.5px] font-bold text-emerald-400 hover:text-emerald-300 px-2 py-1 rounded bg-slate-800/80 border border-slate-700 shrink-0">
             Lihat Auto-Save
           </button>
         </div>
@@ -551,99 +563,98 @@
       </div>
     </div>
 
-    <!-- Footer Intro: Kiri Bawah "faizal v2.0" -->
-    <div class="max-w-6xl w-full mx-auto flex items-center justify-between pt-3 border-t border-slate-800/80">
-      <div class="mono text-sm font-black tracking-wide text-slate-200 flex items-center gap-2">
+    <div class="max-w-6xl w-full mx-auto flex flex-wrap items-center justify-between gap-2 pt-2.5 border-t border-slate-800/80">
+      <div class="mono text-xs sm:text-sm font-black tracking-wide text-slate-200 flex items-center gap-2">
         <span class="w-2.5 h-2.5 rounded-full bg-[#e05224] inline-block"></span>
         <span>faizal v2.0</span>
       </div>
-      <div class="text-[11px] text-slate-500">
-        Tekan <kbd>W</kbd> kapan saja untuk mode tembus kabel • <kbd>Ctrl+S</kbd> simpan cepat .faiz
+      <div class="text-[10.5px] sm:text-[11px] text-slate-500">
+        Tekan <kbd>W</kbd> tembus kabel • <kbd>Ctrl+S</kbd> simpan .faiz
       </div>
     </div>
   </div>
 
   <!-- 1. TOP NAVIGATION & TOOLBAR -->
-  <header class="bg-slate-950 border-b border-slate-800 px-3 pt-2 pb-1.5 flex flex-col gap-1.5 z-40 shadow-lg shrink-0">
-    <div class="flex flex-wrap items-center justify-between gap-2">
-      <div class="flex items-center gap-2">
-        <button onclick="openIntroScreen()" title="Kembali ke Layar Intro & Histori" class="w-8 h-8 rounded bg-[#114b3c] hover:bg-emerald-700 border border-emerald-500/60 flex items-center justify-center font-black text-white text-xs shadow transition">PS</button>
-        <div>
-          <div class="flex items-center gap-2 flex-wrap">
+  <header class="bg-slate-950 border-b border-slate-800 px-2.5 sm:px-3 pt-1.5 sm:pt-2 pb-1.5 flex flex-col gap-1.5 z-40 shadow-lg shrink-0">
+    <div class="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
+      <div class="flex items-center gap-2 min-w-0">
+        <button onclick="openIntroScreen()" title="Kembali ke Layar Intro & Histori" class="w-8 h-8 rounded bg-[#114b3c] hover:bg-emerald-700 border border-emerald-500/60 flex items-center justify-center font-black text-white text-xs shadow transition shrink-0">PS</button>
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5 flex-wrap">
             <h1 class="text-xs sm:text-sm font-extrabold text-white tracking-tight leading-tight">PT980410 SIMULATION</h1>
-            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-900 border border-slate-700 mono text-[10.5px] font-bold text-sky-300">
-              <span id="project-name-display">Tanpa Judul.faiz</span>
-              <span id="project-dirty-dot" class="hidden text-amber-400 font-black" title="Ada perubahan belum disimpan">●</span>
+            <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 mono text-[10px] font-bold text-sky-300 max-w-[150px] sm:max-w-none truncate">
+              <span id="project-name-display" class="truncate">Tanpa Judul.faiz</span>
+              <span id="project-dirty-dot" class="hidden text-amber-400 font-black shrink-0" title="Ada perubahan belum disimpan">●</span>
             </span>
             <span id="autosave-status-badge" class="hidden md:inline-block text-[10px] font-semibold text-emerald-400/90">Auto-Save aktif</span>
           </div>
-          <p class="text-[10px] text-slate-400 leading-tight">faizal v2.0 • Soket selalu di atas kabel • Simpan proyek format <span class="mono">.faiz</span></p>
+          <p class="hidden sm:block text-[10px] text-slate-400 leading-tight">faizal v2.0 • Soket selalu di atas kabel • Simpan proyek format <span class="mono">.faiz</span></p>
         </div>
       </div>
 
-      <div class="flex flex-wrap items-center gap-1.5">
-        <button onclick="openProjectModal()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-extrabold px-2.5 py-1.5 rounded-lg border border-slate-700 transition" title="Proyek Baru, Histori Terbaru & Auto-Save">
+      <div class="flex items-center gap-1 sm:gap-1.5 overflow-x-auto max-w-full pb-0.5 sm:pb-0">
+        <button onclick="openProjectModal()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 text-[11px] sm:text-xs font-extrabold px-2 py-1.5 rounded-lg border border-slate-700 transition shrink-0" title="Proyek Baru, Histori Terbaru & Auto-Save">
           📂 Proyek
         </button>
-        <button onclick="saveProject(false)" class="bg-sky-700 hover:bg-sky-600 text-white text-xs font-extrabold px-2.5 py-1.5 rounded-lg border border-sky-500/60 shadow transition" title="Simpan ke file .faiz (Ctrl+S)">
+        <button onclick="saveProject(false)" class="bg-sky-700 hover:bg-sky-600 text-white text-[11px] sm:text-xs font-extrabold px-2 py-1.5 rounded-lg border border-sky-500/60 shadow transition shrink-0" title="Simpan ke file .faiz (Ctrl+S)">
           💾 Simpan
         </button>
-        <button onclick="saveProject(true)" class="bg-slate-800 hover:bg-slate-700 text-sky-200 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 transition" title="Simpan sebagai file .faiz baru (Ctrl+Shift+S)">
+        <button onclick="saveProject(true)" class="hidden sm:inline-flex bg-slate-800 hover:bg-slate-700 text-sky-200 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 transition shrink-0" title="Simpan sebagai file .faiz baru (Ctrl+Shift+S)">
           Save As
         </button>
-        <button onclick="openProjectFile(false)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 transition" title="Buka file .faiz (Ctrl+O)">
+        <button onclick="openProjectFile(false)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] sm:text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 transition shrink-0" title="Buka file .faiz (Ctrl+O)">
           📁 Buka
         </button>
         <div class="h-5 w-px bg-slate-800 mx-0.5 hidden sm:block"></div>
-        <button id="btn-catalog-drawer" onclick="toggleCatalogDrawer()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold px-3 py-1.5 rounded-lg border border-emerald-400/60 shadow transition">
-          ＋ Tambah Modul
+        <button id="btn-catalog-drawer" onclick="toggleCatalogDrawer()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs font-extrabold px-2.5 py-1.5 rounded-lg border border-emerald-400/60 shadow transition shrink-0">
+          ＋ Modul
         </button>
-        <button onclick="toggleShortcutModal()" class="bg-slate-800 hover:bg-slate-700 text-sky-300 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 transition" title="Daftar Shortcut Keyboard">
+        <button onclick="toggleShortcutModal()" class="hidden md:inline-flex bg-slate-800 hover:bg-slate-700 text-sky-300 text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-700 transition shrink-0" title="Daftar Shortcut Keyboard">
           ⌨️ [?]
         </button>
-        <button onclick="toggleSidebar()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-2.5 py-1.5 rounded-lg border border-slate-500/50 transition">
-          📋 Panel [H] (<span id="top-wire-count">0</span>)
+        <button onclick="toggleSidebar()" class="bg-slate-700 hover:bg-slate-600 text-white text-[11px] sm:text-xs font-bold px-2 py-1.5 rounded-lg border border-slate-500/50 transition shrink-0">
+          📋 (<span id="top-wire-count">0</span>)
         </button>
       </div>
     </div>
 
     <!-- Toolbar Kabel & Zoom -->
-    <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-900/90 px-2.5 py-1.5 rounded-lg border border-slate-800">
-      <div class="flex flex-wrap items-center gap-2">
-        <span class="text-[11px] font-semibold text-slate-400">Warna [1–5]:</span>
-        <button onclick="setWireColor('red')"    id="btn-color-red"    title="1: Merah (R / Fasa)"     class="color-btn w-5 h-5 rounded-full bg-red-600 border-2 border-white ring-2 ring-sky-400 hover:scale-110 transition"></button>
-        <button onclick="setWireColor('yellow')" id="btn-color-yellow" title="2: Kuning (S)"           class="color-btn w-5 h-5 rounded-full bg-yellow-400 border-2 border-slate-700 hover:scale-110 transition"></button>
-        <button onclick="setWireColor('black')"  id="btn-color-black"  title="3: Hitam (T)"            class="color-btn w-5 h-5 rounded-full bg-neutral-900 border-2 border-slate-500 hover:scale-110 transition"></button>
-        <button onclick="setWireColor('blue')"   id="btn-color-blue"   title="4: Biru (Netral N)"      class="color-btn w-5 h-5 rounded-full bg-blue-600 border-2 border-slate-700 hover:scale-110 transition"></button>
-        <button onclick="setWireColor('green')"  id="btn-color-green"  title="5: Hijau (Kontrol / PE)" class="color-btn w-5 h-5 rounded-full bg-emerald-600 border-2 border-slate-700 hover:scale-110 transition"></button>
+    <div class="flex items-center justify-between gap-2 bg-slate-900/90 px-2 py-1 rounded-lg border border-slate-800 overflow-x-auto">
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <span class="text-[10.5px] font-semibold text-slate-400">Warna:</span>
+        <button onclick="setWireColor('red')"    id="btn-color-red"    title="1: Merah (R / Fasa)"     class="color-btn w-5 h-5 rounded-full bg-red-600 border-2 border-white ring-2 ring-sky-400 hover:scale-110 transition shrink-0"></button>
+        <button onclick="setWireColor('yellow')" id="btn-color-yellow" title="2: Kuning (S)"           class="color-btn w-5 h-5 rounded-full bg-yellow-400 border-2 border-slate-700 hover:scale-110 transition shrink-0"></button>
+        <button onclick="setWireColor('black')"  id="btn-color-black"  title="3: Hitam (T)"            class="color-btn w-5 h-5 rounded-full bg-neutral-900 border-2 border-slate-500 hover:scale-110 transition shrink-0"></button>
+        <button onclick="setWireColor('blue')"   id="btn-color-blue"   title="4: Biru (Netral N)"      class="color-btn w-5 h-5 rounded-full bg-blue-600 border-2 border-slate-700 hover:scale-110 transition shrink-0"></button>
+        <button onclick="setWireColor('green')"  id="btn-color-green"  title="5: Hijau (Kontrol / PE)" class="color-btn w-5 h-5 rounded-full bg-emerald-600 border-2 border-slate-700 hover:scale-110 transition shrink-0"></button>
 
-        <div class="h-4 w-px bg-slate-700 mx-0.5"></div>
+        <div class="h-4 w-px bg-slate-700 mx-0.5 hidden sm:block"></div>
 
-        <div class="flex items-center gap-1.5">
+        <div class="hidden sm:flex items-center gap-1.5">
           <span class="text-[10px] text-slate-400">Transparansi:</span>
           <input type="range" id="wire-opacity" min="25" max="100" step="5" value="90" oninput="updateWireOpacity(this.value)" class="w-16 accent-emerald-500 cursor-pointer">
           <span id="wire-opacity-val" class="mono text-[10px] font-bold text-emerald-400 w-8">90%</span>
         </div>
 
-        <button id="btn-wire-passthrough" onclick="toggleWirePassThrough()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-bold px-2 py-1 rounded border border-slate-600 transition" title="Pudarkan kabel & buat tembus klik agar soket mudah diakses (Shortcut: W)">
-          👁 Tembus Kabel [W]
+        <button id="btn-wire-passthrough" onclick="toggleWirePassThrough()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10.5px] sm:text-[11px] font-bold px-2 py-1 rounded border border-slate-600 transition shrink-0" title="Pudarkan kabel & buat tembus klik agar soket mudah diakses (Shortcut: W)">
+          👁 Tembus [W]
         </button>
       </div>
 
-      <div class="flex flex-wrap items-center gap-1.5">
-        <button onclick="autoBridgeNeutral()" class="bg-blue-700/90 hover:bg-blue-600 text-white text-[11px] font-bold px-2 py-1 rounded border border-blue-500/50 transition">
-          ⚡ Jumper N [N]
+      <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+        <button onclick="autoBridgeNeutral()" class="bg-blue-700/90 hover:bg-blue-600 text-white text-[10.5px] sm:text-[11px] font-bold px-2 py-1 rounded border border-blue-500/50 transition shrink-0">
+          ⚡ Jumper N
         </button>
-        <button onclick="undoWire()" class="bg-slate-700 hover:bg-slate-600 text-slate-100 text-[11px] font-bold px-2 py-1 rounded border border-slate-600 transition">
-          ↩ Undo [Ctrl+Z]
+        <button onclick="undoWire()" class="bg-slate-700 hover:bg-slate-600 text-slate-100 text-[10.5px] sm:text-[11px] font-bold px-2 py-1 rounded border border-slate-600 transition shrink-0">
+          ↩ Undo
         </button>
-        <button onclick="clearAllWires()" class="bg-rose-700/90 hover:bg-rose-600 text-white text-[11px] font-bold px-2 py-1 rounded border border-rose-500/50 transition">
-          ✕ Reset Kabel
+        <button onclick="clearAllWires()" class="bg-rose-700/90 hover:bg-rose-600 text-white text-[10.5px] sm:text-[11px] font-bold px-2 py-1 rounded border border-rose-500/50 transition shrink-0">
+          ✕ Kabel
         </button>
       </div>
 
-      <div class="flex items-center gap-1 bg-slate-950 p-0.5 rounded border border-slate-800">
-        <span class="text-[10px] text-slate-400 px-1">Zoom:</span>
+      <div class="flex items-center gap-0.5 bg-slate-950 p-0.5 rounded border border-slate-800 shrink-0">
+        <span class="hidden md:inline text-[10px] text-slate-400 px-1">Zoom:</span>
         <button onclick="setZoom(0.75)" id="zoom-75"  class="zoom-btn px-1.5 py-0.5 rounded text-[10px] mono font-bold text-slate-300 hover:bg-slate-800">75%</button>
         <button onclick="setZoom(0.85)" id="zoom-85"  class="zoom-btn px-1.5 py-0.5 rounded text-[10px] mono font-bold bg-emerald-700 text-white">85%</button>
         <button onclick="setZoom(1.0)"  id="zoom-100" class="zoom-btn px-1.5 py-0.5 rounded text-[10px] mono font-bold text-slate-300 hover:bg-slate-800">100%</button>
@@ -652,20 +663,20 @@
   </header>
 
   <!-- BANNER PERINGATAN BAHAYA / KONSLETING -->
-  <div id="alert-banner" class="hidden px-4 py-2 text-xs sm:text-sm font-extrabold flex items-center justify-between shadow-lg z-40 shrink-0">
-    <div class="flex items-center gap-2">
-      <span class="text-base">⚠️</span>
-      <span id="alert-banner-text">PERINGATAN!</span>
+  <div id="alert-banner" class="hidden px-3 sm:px-4 py-2 text-xs sm:text-sm font-extrabold flex items-center justify-between gap-2 shadow-lg z-40 shrink-0">
+    <div class="flex items-center gap-2 min-w-0">
+      <span class="text-base shrink-0">⚠️</span>
+      <span id="alert-banner-text" class="leading-snug">PERINGATAN!</span>
     </div>
-    <button onclick="dismissAlert()" class="bg-black/30 hover:bg-black/50 px-2.5 py-1 rounded text-xs font-bold">Tutup</button>
+    <button onclick="dismissAlert()" class="bg-black/30 hover:bg-black/50 px-2.5 py-1 rounded text-xs font-bold shrink-0">Tutup</button>
   </div>
 
   <!-- BAR STATUS INTERAKSI -->
-  <div class="bg-slate-900/95 border-b border-slate-800 px-3 py-1 flex flex-wrap items-center justify-between gap-2 text-[11px] shrink-0">
-    <div id="status-message" class="text-slate-300 truncate max-w-3xl">
-      Klik <b>＋ Tambah Modul</b> untuk menyeret komponen ke rak. Soket <i>banana jack</i> selalu berada di atas kabel.
+  <div class="bg-slate-900/95 border-b border-slate-800 px-3 py-1 flex flex-wrap items-center justify-between gap-1.5 text-[10.5px] sm:text-[11px] shrink-0">
+    <div id="status-message" class="text-slate-300 truncate max-w-full sm:max-w-3xl">
+      Klik <b>＋ Modul</b> untuk menyeret komponen ke rak. Soket <i>banana jack</i> selalu berada di atas kabel.
     </div>
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-1.5 flex-wrap">
       <span id="selected-jack-indicator" class="hidden px-2 py-0.5 rounded bg-sky-900/90 text-sky-300 border border-sky-500/60 font-bold"></span>
       <span id="selected-wire-indicator" class="hidden px-2 py-0.5 rounded bg-cyan-900/90 text-cyan-200 border border-cyan-400/70 font-bold"></span>
       <button id="delete-selected-wire-btn" onclick="deleteSelectedWire()" class="hidden px-2 py-0.5 rounded bg-rose-700 hover:bg-rose-600 text-white font-bold">🗑 Hapus [Del]</button>
@@ -675,8 +686,7 @@
 
   <!-- AREA KERJA UTAMA -->
   <div class="flex flex-1 overflow-hidden relative">
-    <!-- PAPAN TRAINER INTERAKTIF -->
-    <main id="rack-viewport" tabindex="0" onclick="handleBoardBackgroundClick()" class="flex-1 overflow-auto p-4 relative bg-[#141c24] outline-none">
+    <main id="rack-viewport" tabindex="0" onclick="handleBoardBackgroundClick()" class="flex-1 overflow-auto p-3 sm:p-4 relative bg-[#141c24] outline-none">
       <div id="rack-board" class="relative inline-block origin-top-left transition-transform duration-150" style="transform: scale(0.85);">
         <div id="rack-container"></div>
         <svg id="wire-svg"></svg>
@@ -686,9 +696,12 @@
     <!-- SIDEBAR KANAN: TELEMETRI REAL-TIME & DAFTAR KABEL -->
     <aside id="wiring-sidebar" class="w-80 lg:w-96 bg-slate-950 border-l border-slate-800 flex flex-col shrink-0 z-30 shadow-2xl">
       <div class="p-2.5 bg-slate-900 border-b border-slate-800 space-y-2">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between gap-2">
           <span class="text-[10.5px] font-extrabold uppercase tracking-wider text-slate-300">📡 Telemetri &amp; Status Papan</span>
-          <span id="rt-power-pill" class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-slate-800 text-slate-400 border border-slate-700">Sumber: OFF</span>
+          <div class="flex items-center gap-1.5">
+            <span id="rt-power-pill" class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-slate-800 text-slate-400 border border-slate-700">Sumber: OFF</span>
+            <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-white text-xs font-bold px-1.5 py-0.5 rounded bg-slate-800">✕</button>
+          </div>
         </div>
         <div id="rt-dynamic-status" class="grid grid-cols-2 gap-1.5 text-[10px] max-h-40 overflow-y-auto"></div>
       </div>
@@ -705,7 +718,7 @@
       </div>
     </aside>
 
-    <!-- DRAWER KATALOG MODUL (SLIDE DARI KANAN + SEARCH + GAMBAR + DRAG) -->
+    <!-- DRAWER KATALOG MODUL -->
     <aside id="catalog-drawer" class="drawer-closed absolute top-0 right-0 bottom-0 w-80 lg:w-[400px] bg-slate-950/98 backdrop-blur-md border-l-2 border-emerald-500/60 flex flex-col z-40 shadow-2xl">
       <div class="p-3 bg-slate-900 border-b border-slate-800 space-y-2 shrink-0">
         <div class="flex items-center justify-between gap-2">
@@ -737,38 +750,36 @@
     </aside>
   </div>
 
-  <!-- INPUT FILE TERSEMBUNYI (FALLBACK BUKA FILE .faiz DI BROWSER) -->
-  <input id="faiz-file-input" type="file" accept=".faiz,.json" class="hidden" onchange="handleFallbackFileOpen(event)" />
+  <!-- INPUT FILE TERSEMBUNYI -->
+  <input id="faiz-file-input" type="file" accept=".faiz,.json,*/*" class="hidden" onchange="handleFallbackFileOpen(event)" />
 
-  <!-- MODAL PROYEK, HISTORI FILE TERBARU & AUTO-SAVE (ALA AFTER EFFECTS) -->
-  <div id="project-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[110] flex items-center justify-center p-4" onclick="closeProjectModal()">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-4xl w-full max-h-[86vh] flex flex-col shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
-      <div class="px-5 py-3.5 bg-slate-950 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
-        <div>
-          <h3 class="text-sm font-extrabold text-white">📂 Manajer Proyek (.faiz) &amp; Auto-Save</h3>
-          <p class="text-[11px] text-slate-400">Kelola file tersimpan, riwayat proyek terbaru, dan 5 slot cadangan Auto-Save otomatis.</p>
+  <!-- MODAL PROYEK, HISTORI FILE TERBARU & AUTO-SAVE -->
+  <div id="project-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[110] flex items-center justify-center p-3 sm:p-4" onclick="closeProjectModal()">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <div class="px-4 sm:px-5 py-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between gap-2">
+        <div class="min-w-0">
+          <h3 class="text-xs sm:text-sm font-extrabold text-white truncate">📂 Manajer Proyek (.faiz) &amp; Auto-Save</h3>
+          <p class="text-[10.5px] sm:text-[11px] text-slate-400 truncate">Kelola file tersimpan, riwayat proyek terbaru, dan 5 slot cadangan Auto-Save otomatis.</p>
         </div>
-        <button onclick="closeProjectModal()" class="text-slate-400 hover:text-white font-bold text-lg px-2">✕</button>
+        <button onclick="closeProjectModal()" class="text-slate-400 hover:text-white font-bold text-lg px-2 shrink-0">✕</button>
       </div>
 
-      <!-- Bar Aksi Cepat -->
-      <div class="px-5 py-2.5 bg-slate-900/90 border-b border-slate-800 flex flex-wrap items-center gap-2">
+      <div class="px-4 sm:px-5 py-2.5 bg-slate-900/90 border-b border-slate-800 flex flex-wrap items-center gap-2">
         <button onclick="newCleanProject(); closeProjectModal();" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold px-3 py-1.5 rounded-lg">＋ Proyek Baru (Bersih)</button>
         <button onclick="saveProject(false)" class="bg-sky-700 hover:bg-sky-600 text-white text-xs font-extrabold px-3 py-1.5 rounded-lg">💾 Simpan (.faiz)</button>
         <button onclick="saveProject(true)" class="bg-slate-800 hover:bg-slate-700 text-sky-200 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-700">Save As .faiz</button>
         <button onclick="openProjectFile(true)" class="bg-slate-800 hover:bg-slate-700 text-slate-100 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-700">📁 Buka File .faiz</button>
         <button onclick="loadDefaultBoard(); closeProjectModal();" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-700">🧩 Muat Susunan Lengkap</button>
-        <button onclick="closeProjectModal(); openIntroScreen();" class="ml-auto bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold px-2.5 py-1.5 rounded-lg border border-slate-700">🏠 Layar Intro</button>
+        <button onclick="closeProjectModal(); openIntroScreen();" class="bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold px-2.5 py-1.5 rounded-lg border border-slate-700">🏠 Layar Intro</button>
       </div>
 
-      <!-- 2 Kolom: Histori Terbaru & Auto-Save -->
-      <div class="flex-1 overflow-y-auto p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex-1 overflow-y-auto p-3 sm:p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 flex flex-col">
           <div class="flex items-center justify-between mb-2">
             <span class="text-xs font-extrabold text-sky-400">🕘 Histori File Terbaru (.faiz)</span>
             <button onclick="clearRecentHistory()" class="text-[10px] text-rose-400 hover:underline font-bold">Hapus Histori</button>
           </div>
-          <div id="modal-recent-list" class="space-y-2 flex-1 overflow-y-auto max-h-72"></div>
+          <div id="modal-recent-list" class="space-y-2 flex-1 overflow-y-auto max-h-64"></div>
         </div>
 
         <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 flex flex-col">
@@ -776,7 +787,7 @@
             <span class="text-xs font-extrabold text-amber-400">🛡️ Auto-Save (Cadangan Otomatis)</span>
             <button onclick="runAutoSave(true)" class="text-[10px] bg-amber-700/80 hover:bg-amber-600 text-white px-2 py-0.5 rounded font-bold">Auto-Save Sekarang</button>
           </div>
-          <div id="modal-autosave-list" class="space-y-2 flex-1 overflow-y-auto max-h-72"></div>
+          <div id="modal-autosave-list" class="space-y-2 flex-1 overflow-y-auto max-h-64"></div>
         </div>
       </div>
     </div>
@@ -789,7 +800,7 @@
         <h3 class="text-sm font-extrabold text-white">⌨️ Daftar Shortcut Keyboard</h3>
         <button onclick="closeShortcutModal()" class="text-slate-400 hover:text-white font-bold text-lg px-1">✕</button>
       </div>
-      <div class="p-4 space-y-2 text-xs text-slate-200">
+      <div class="p-4 space-y-2 text-xs text-slate-200 max-h-[70vh] overflow-y-auto">
         <div class="flex items-center justify-between"><span>Simpan file proyek (.faiz)</span><span><kbd>Ctrl+S</kbd></span></div>
         <div class="flex items-center justify-between"><span>Simpan sebagai file .faiz baru</span><span><kbd>Ctrl+Shift+S</kbd></span></div>
         <div class="flex items-center justify-between"><span>Buka file .faiz</span><span><kbd>Ctrl+O</kbd></span></div>
@@ -797,7 +808,7 @@
         <div class="flex items-center justify-between"><span>Ganti warna kabel (Merah–Hijau)</span><span><kbd>1</kbd> – <kbd>5</kbd></span></div>
         <div class="flex items-center justify-between"><span>Hapus kabel yang dipilih</span><span><kbd>Del</kbd> / <kbd>Backspace</kbd></span></div>
         <div class="flex items-center justify-between"><span>Batal pilih / Tutup panel &amp; modal</span><span><kbd>Esc</kbd></span></div>
-        <div class="flex items-center justify-between"><span>Undo kabel terakhir</span><span><kbd>Ctrl+Z</kbd> / <kbd>U</kbd></span></div>
+        <div class="flex items-center justify-between"><span>Undo / Redo kabel</span><span><kbd>Ctrl+Z</kbd> / <kbd>Ctrl+Y</kbd></span></div>
         <div class="flex items-center justify-between"><span>Pasang otomatis Jumper Busbar Netral</span><span><kbd>N</kbd></span></div>
         <div class="flex items-center justify-between"><span>Nyalakan / Matikan Sumber Utama 3Φ</span><span><kbd>P</kbd></span></div>
         <div class="flex items-center justify-between"><span>Jumper Bintang (Y) Motor 3Φ</span><span><kbd>Y</kbd></span></div>
@@ -899,17 +910,16 @@
       wireOpacity: 0.9,
       wirePassThrough: false,
       zoom: 0.85,
-      sidebarOpen: true,
+      sidebarOpen: false,
       catalogOpen: false,
       catalogCat: 'Semua',
       alertType: null,
       alertMsg: '',
       dragSourceId: null,
       dragCatalogType: null,
-      // State Proyek (.faiz) & Auto-Save
       projectName: 'Tanpa Judul.faiz',
-      projectPath: null,       // Path file asli di PC (mode desktop .exe)
-      fileHandle: null,        // FileSystemFileHandle (mode Chrome/Edge)
+      projectPath: null,
+      fileHandle: null,
       isDirty: false,
       lastAutoSaveHash: ''
     };
@@ -1041,129 +1051,129 @@
     }
 
     const MAX_HISTORY_STEPS = 60;
- let historyStack = [];
- let historyIndex = -1;
- let isRestoringHistory = false;
+    let historyStack = [];
+    let historyIndex = -1;
+    let isRestoringHistory = false;
 
- function getHistoryFingerprint(snap) {
-   return JSON.stringify({
-     rows: snap.rows,
-     floor: snap.floor,
-     instances: snap.instances,
-     wires: snap.wires
-   });
- }
+    function getHistoryFingerprint(snap) {
+      return JSON.stringify({
+        rows: snap.rows,
+        floor: snap.floor,
+        instances: snap.instances,
+        wires: snap.wires
+      });
+    }
 
- function resetHistory() {
-   const snap = serializeProject(state.projectName);
-   historyStack = [snap];
-   historyIndex = 0;
- }
+    function resetHistory() {
+      const snap = serializeProject(state.projectName);
+      historyStack = [snap];
+      historyIndex = 0;
+    }
 
- function pushHistory() {
-   if (isRestoringHistory) return;
-   const snap = serializeProject(state.projectName);
-   if (historyIndex >= 0 && historyStack[historyIndex]) {
-     if (getHistoryFingerprint(historyStack[historyIndex]) === getHistoryFingerprint(snap)) return;
-   }
-   historyStack = historyStack.slice(0, historyIndex + 1);
-   historyStack.push(snap);
-   if (historyStack.length > MAX_HISTORY_STEPS) historyStack.shift();
-   historyIndex = historyStack.length - 1;
- }
+    function pushHistory() {
+      if (isRestoringHistory) return;
+      const snap = serializeProject(state.projectName);
+      if (historyIndex >= 0 && historyStack[historyIndex]) {
+        if (getHistoryFingerprint(historyStack[historyIndex]) === getHistoryFingerprint(snap)) return;
+      }
+      historyStack = historyStack.slice(0, historyIndex + 1);
+      historyStack.push(snap);
+      if (historyStack.length > MAX_HISTORY_STEPS) historyStack.shift();
+      historyIndex = historyStack.length - 1;
+    }
 
- function restoreHistorySnapshot(snap) {
-   if (!snap) return;
-   isRestoringHistory = true;
-   try {
-     resetBoardContainers();
-     Object.values(snap.instances || {}).forEach(raw => {
-       if (!raw || !raw.id || !CATALOG_MAP[raw.type]) return;
-       const catalogMeta = CATALOG_MAP[raw.type];
-       const mergedSt = { ...defaultModuleState(raw.type), ...(raw.st || {}) };
-       if (raw.type === 'CONTACTOR') mergedSt.energized = false;
-       if (raw.type === 'TDR') { mergedSt.energized = false; mergedSt.elapsed = 0; mergedSt.timedActive = false; }
-       if (raw.type === 'COUNTER') mergedSt.energized = false;
-       if (raw.type === 'PB') { mergedSt.a = false; mergedSt.b = false; }
-       state.instances[raw.id] = {
-         id: raw.id,
-         type: raw.type,
-         label: raw.label || raw.id,
-         zone: raw.zone || catalogMeta.zone,
-         hasN: catalogMeta.hasN,
-         st: mergedSt
-       };
-     });
+    function restoreHistorySnapshot(snap) {
+      if (!snap) return;
+      isRestoringHistory = true;
+      try {
+        resetBoardContainers();
+        Object.values(snap.instances || {}).forEach(raw => {
+          if (!raw || !raw.id || !CATALOG_MAP[raw.type]) return;
+          const catalogMeta = CATALOG_MAP[raw.type];
+          const mergedSt = { ...defaultModuleState(raw.type), ...(raw.st || {}) };
+          if (raw.type === 'CONTACTOR') mergedSt.energized = false;
+          if (raw.type === 'TDR') { mergedSt.energized = false; mergedSt.elapsed = 0; mergedSt.timedActive = false; }
+          if (raw.type === 'COUNTER') mergedSt.energized = false;
+          if (raw.type === 'PB') { mergedSt.a = false; mergedSt.b = false; }
+          state.instances[raw.id] = {
+            id: raw.id,
+            type: raw.type,
+            label: raw.label || raw.id,
+            zone: raw.zone || catalogMeta.zone,
+            hasN: catalogMeta.hasN,
+            st: mergedSt
+          };
+        });
 
-     state.rows = [0, 1, 2].map(r => (snap.rows[r] || []).filter(id => state.instances[id]));
-     state.floor = (snap.floor || []).filter(id => state.instances[id]);
-     state.typeCounters = { ...(snap.typeCounters || {}) };
+        state.rows = [0, 1, 2].map(r => (snap.rows[r] || []).filter(id => state.instances[id]));
+        state.floor = (snap.floor || []).filter(id => state.instances[id]);
+        state.typeCounters = { ...(snap.typeCounters || {}) };
 
-     buildRack();
-     (snap.wires || []).forEach(w => addWire(w.from, w.to, w.color || 'red'));
-     renderWires();
-     renderWireList();
-     solveCircuit();
+        buildRack();
+        (snap.wires || []).forEach(w => addWire(w.from, w.to, w.color || 'red'));
+        renderWires();
+        renderWireList();
+        solveCircuit();
 
-     state.isDirty = true;
-     updateProjectHeaderUI();
-     clearTimeout(autoSaveDebounce);
-     autoSaveDebounce = setTimeout(() => runAutoSave(false), 12000);
-   } finally {
-     isRestoringHistory = false;
-   }
- }
+        state.isDirty = true;
+        updateProjectHeaderUI();
+        clearTimeout(autoSaveDebounce);
+        autoSaveDebounce = setTimeout(() => runAutoSave(false), 12000);
+      } finally {
+        isRestoringHistory = false;
+      }
+    }
 
- function newCleanProject(silent = false) {
-   resetBoardContainers();
-   createModuleInstance('SOURCE', 0, 'rack');
-   state.projectName = 'Tanpa Judul.faiz';
-   state.projectPath = null;
-   state.fileHandle = null;
-   state.isDirty = false;
-   updateProjectHeaderUI();
-   if (!silent) {
-     setStatus('Proyek baru siap (1× <b>Three Phase Source</b> di Rak 1). Klik <b>＋ Tambah Modul</b> untuk menambah komponen.');
-   }
-   rebuildAll();
-   resetHistory();
- }
+    function newCleanProject(silent = false) {
+      resetBoardContainers();
+      createModuleInstance('SOURCE', 0, 'rack');
+      state.projectName = 'Tanpa Judul.faiz';
+      state.projectPath = null;
+      state.fileHandle = null;
+      state.isDirty = false;
+      updateProjectHeaderUI();
+      if (!silent) {
+        setStatus('Proyek baru siap (1× <b>Three Phase Source</b> di Rak 1). Klik <b>＋ Modul</b> untuk menambah komponen.');
+      }
+      rebuildAll();
+      resetHistory();
+    }
 
- function loadDefaultBoard() {
-   resetBoardContainers();
-   ['SOURCE', 'NFB', 'MCB3', 'MCB1', 'CONTACTOR', 'CONTACTOR'].forEach(t => createModuleInstance(t, 0, 'rack'));
-   ['TOR', 'TDR', 'PB', 'PB', 'LAMPS', 'VOLTMETER'].forEach(t => createModuleInstance(t, 1, 'rack'));
-   ['SINGLE_SW', 'SERIES_SW', 'CHANGEOVER_SW', 'SOCKET_LAMP', 'SCHUKO', 'CAPACITOR'].forEach(t => createModuleInstance(t, 2, 'rack'));
-   ['MOTOR3', 'MOTOR1', 'LAMP_TL'].forEach(t => createModuleInstance(t, 0, 'floor'));
+    function loadDefaultBoard() {
+      resetBoardContainers();
+      ['SOURCE', 'NFB', 'MCB3', 'MCB1', 'CONTACTOR', 'CONTACTOR'].forEach(t => createModuleInstance(t, 0, 'rack'));
+      ['TOR', 'TDR', 'PB', 'PB', 'LAMPS', 'VOLTMETER'].forEach(t => createModuleInstance(t, 1, 'rack'));
+      ['SINGLE_SW', 'SERIES_SW', 'CHANGEOVER_SW', 'SOCKET_LAMP', 'SCHUKO', 'CAPACITOR'].forEach(t => createModuleInstance(t, 2, 'rack'));
+      ['MOTOR3', 'MOTOR1', 'LAMP_TL'].forEach(t => createModuleInstance(t, 0, 'floor'));
 
-   state.projectName = 'Susunan_Lengkap.faiz';
-   state.projectPath = null;
-   state.fileHandle = null;
-   state.isDirty = false;
-   updateProjectHeaderUI();
-   setStatus('Susunan lengkap (MML + IDL) dimuat. Semua modul bebas dipindahkan antar Rak 1–3 dan Meja.');
-   rebuildAll();
-   resetHistory();
- }
+      state.projectName = 'Susunan_Lengkap.faiz';
+      state.projectPath = null;
+      state.fileHandle = null;
+      state.isDirty = false;
+      updateProjectHeaderUI();
+      setStatus('Susunan lengkap (MML + IDL) dimuat. Semua modul bebas dipindahkan antar Rak 1–3 dan Meja.');
+      rebuildAll();
+      resetHistory();
+    }
 
- // =========================================================================
- // 2. SISTEM PROYEK (.faiz), AUTO-SAVE 5 SLOT & HISTORI FILE TERBARU
- // =========================================================================
- function updateProjectHeaderUI() {
-   const nameEl = document.getElementById('project-name-display');
-   const dotEl = document.getElementById('project-dirty-dot');
-   if (nameEl) nameEl.textContent = state.projectName;
-   if (dotEl) dotEl.classList.toggle('hidden', !state.isDirty);
-   document.title = `${state.isDirty ? '● ' : ''}${state.projectName} — PT980410 SIMULATION`;
- }
+    // =========================================================================
+    // 2. SISTEM PROYEK (.faiz), AUTO-SAVE 5 SLOT & HISTORI FILE TERBARU
+    // =========================================================================
+    function updateProjectHeaderUI() {
+      const nameEl = document.getElementById('project-name-display');
+      const dotEl = document.getElementById('project-dirty-dot');
+      if (nameEl) nameEl.textContent = state.projectName;
+      if (dotEl) dotEl.classList.toggle('hidden', !state.isDirty);
+      document.title = `${state.isDirty ? '● ' : ''}${state.projectName} — PT980410 SIMULATION`;
+    }
 
- function markDirty() {
-   state.isDirty = true;
-   updateProjectHeaderUI();
-   pushHistory();
-   clearTimeout(autoSaveDebounce);
-   autoSaveDebounce = setTimeout(() => runAutoSave(false), 12000);
- }
+    function markDirty() {
+      state.isDirty = true;
+      updateProjectHeaderUI();
+      pushHistory();
+      clearTimeout(autoSaveDebounce);
+      autoSaveDebounce = setTimeout(() => runAutoSave(false), 12000);
+    }
 
     function serializeProject(customName = null) {
       const cleanInstances = {};
@@ -1206,7 +1216,6 @@
 
       resetBoardContainers();
 
-      // Rekonstruksi instances secara aman
       Object.values(data.instances).forEach(raw => {
         if (!raw || !raw.id || !CATALOG_MAP[raw.type]) return;
         const catalogMeta = CATALOG_MAP[raw.type];
@@ -1226,7 +1235,6 @@
         };
       });
 
-      // Pastikan minimal 1 Three Phase Source tersedia
       if (!Object.values(state.instances).some(m => m.type === 'SOURCE')) {
         createModuleInstance('SOURCE', 0, 'rack');
       }
@@ -1235,7 +1243,6 @@
       state.floor = (data.floor || []).filter(id => state.instances[id]);
       state.typeCounters = { ...(data.typeCounters || {}) };
 
-      // Hitung ulang counter bila ada yang terlewat
       Object.values(state.instances).forEach(m => {
         const prefix = CATALOG_MAP[m.type]?.prefix;
         if (!prefix) return;
@@ -1259,7 +1266,6 @@
         if (valEl) valEl.textContent = pct + '%';
       }
 
-      // Build rack dulu supaya daftar soket allJackIds terisi sebelum pasang kabel
       buildRack();
       (data.wires || []).forEach(w => addWire(w.from, w.to, w.color || 'red'));
       if (typeof data.zoom === 'number') setZoom(data.zoom);
@@ -1280,7 +1286,6 @@
       return true;
     }
 
-    // --- SIMPAN LANGSUNG KE FILE .faiz (ALA MICROSOFT WORD) ---
     async function saveProject(forceSaveAs = false) {
       let targetName = state.projectName;
       if (forceSaveAs || targetName === 'Tanpa Judul.faiz') {
@@ -1294,7 +1299,6 @@
       const payloadObj = serializeProject(targetName);
       const jsonText = JSON.stringify(payloadObj, null, 2);
 
-      // Jalur 1: Aplikasi Desktop (.exe via pywebview) -> simpan langsung ke disk / timpa file asli
       if (hasDesktopApi()) {
         try {
           const res = await window.pywebview.api.save_file(
@@ -1322,7 +1326,6 @@
         }
       }
 
-      // Jalur 2: Browser Chrome / Edge (File System Access API -> bisa timpa langsung seperti Word)
       if (window.showSaveFilePicker) {
         try {
           let handle = forceSaveAs ? null : state.fileHandle;
@@ -1353,7 +1356,6 @@
         }
       }
 
-      // Jalur 3: Fallback Unduh File .faiz (untuk browser lama / iframe)
       const finalName = ensureFaizExt(targetName);
       payloadObj.projectName = finalName;
       const blob = new Blob([JSON.stringify(payloadObj, null, 2)], { type: 'application/json' });
@@ -1374,11 +1376,9 @@
       return true;
     }
 
-    // --- BUKA FILE .faiz ---
     async function openProjectFile(fromIntro = false) {
       pendingOpenFromIntro = fromIntro;
 
-      // Jalur 1: Desktop (.exe via pywebview)
       if (hasDesktopApi()) {
         try {
           const res = await window.pywebview.api.open_file();
@@ -1396,7 +1396,6 @@
         }
       }
 
-      // Jalur 2: Chrome / Edge (File System Access API -> pegang handle agar Ctrl+S langsung timpa file ini)
       if (window.showOpenFilePicker) {
         try {
           const [handle] = await window.showOpenFilePicker({
@@ -1416,7 +1415,6 @@
         }
       }
 
-      // Jalur 3: Fallback Input File
       const inp = document.getElementById('faiz-file-input');
       if (inp) {
         inp.value = '';
@@ -1439,7 +1437,6 @@
       reader.readAsText(file);
     }
 
-    // --- HISTORI FILE TERBARU (RECENT PROJECTS) ---
     function getRecentHistory() {
       try { return JSON.parse(localStorage.getItem(STORAGE_RECENT_KEY) || '[]'); }
       catch { return []; }
@@ -1471,7 +1468,6 @@
       const item = getRecentHistory().find(x => x.id === recId);
       if (!item) return;
 
-      // Jika di versi Desktop (.exe) dan file masih ada di disk, baca versi terbarunya langsung dari disk
       if (hasDesktopApi() && item.path) {
         try {
           const res = await window.pywebview.api.read_file_by_path(item.path);
@@ -1497,7 +1493,6 @@
       setStatus('Histori file terbaru telah dibersihkan.');
     }
 
-    // --- AUTO-SAVE 5 SLOT BERKALA ALA AFTER EFFECTS ---
     function getAutoSaveList() {
       try { return JSON.parse(localStorage.getItem(STORAGE_AUTOSAVE_KEY) || '[]'); }
       catch { return []; }
@@ -1528,7 +1523,6 @@
       try { localStorage.setItem(STORAGE_AUTOSAVE_KEY, JSON.stringify(list.slice(0, MAX_AUTOSAVE_SLOTS))); }
       catch {}
 
-      // Jika jalan sebagai aplikasi Desktop (.exe), tulis juga file backup .faiz fisik di folder AutoSave
       if (hasDesktopApi()) {
         const base = state.projectName.replace(/\.faiz$/i, '');
         const fileStamp = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
@@ -1555,12 +1549,10 @@
       if (list.length) restoreAutoSaveSlot(list[0].id);
     }
 
-    // --- RENDER DAFTAR HISTORI & AUTO-SAVE DI INTRO + MODAL PROYEK ---
     function renderRecentAndAutoSaveLists() {
       const recents = getRecentHistory();
       const autoSaves = getAutoSaveList();
 
-      // Tombol Pulihkan Auto-Save di Intro
       const asBtn = document.getElementById('intro-autosave-btn');
       const asTxt = document.getElementById('intro-autosave-text');
       if (asBtn && asTxt) {
@@ -1587,7 +1579,7 @@
             </div>
             <button onclick="event.stopPropagation(); removeRecentItem('${item.id}')" class="text-slate-600 hover:text-rose-400 font-bold text-xs px-1.5 py-1" title="Hapus dari histori">✕</button>
           </div>`).join('')
-        : `<div class="py-12 text-center text-slate-500 text-xs space-y-1">
+        : `<div class="py-10 text-center text-slate-500 text-xs space-y-1">
              <div class="text-2xl opacity-60">📂</div>
              <div class="font-bold text-slate-400">Belum ada histori file .faiz</div>
              <div class="text-[11px]">Simpan rangkaian dengan <kbd>Ctrl+S</kbd> supaya muncul otomatis di sini.</div>
@@ -1618,7 +1610,6 @@
       if (modalAuto) modalAuto.innerHTML = autoSaveHtml;
     }
 
-    // --- KONTROL LAYAR INTRO & MODAL PROYEK ---
     function openIntroScreen() {
       renderRecentAndAutoSaveLists();
       const el = document.getElementById('intro-screen');
@@ -1648,6 +1639,7 @@
     function closeProjectModal() {
       document.getElementById('project-modal').classList.add('hidden');
     }
+
     // =========================================================================
     // 3. DRAWER KATALOG KANAN + SEARCH + GAMBAR MINIATUR SVG + DRAG BEBAS
     // =========================================================================
@@ -1908,10 +1900,9 @@
       state.catalogOpen = true;
       document.getElementById('catalog-drawer').classList.remove('drawer-closed');
       const btn = document.getElementById('btn-catalog-drawer');
-      if (btn) btn.textContent = '✕ Tutup Katalog';
+      if (btn) btn.textContent = '✕ Tutup';
       renderCatalogCatPills();
       renderCatalogDrawer(document.getElementById('catalog-search')?.value || '');
-      setTimeout(() => document.getElementById('catalog-search')?.focus(), 120);
     }
 
     function closeCatalogDrawer() {
@@ -1919,7 +1910,7 @@
       const drawer = document.getElementById('catalog-drawer');
       if (drawer) drawer.classList.add('drawer-closed');
       const btn = document.getElementById('btn-catalog-drawer');
-      if (btn) btn.textContent = '＋ Tambah Modul';
+      if (btn) btn.textContent = '＋ Modul';
     }
 
     function toggleCatalogDrawer() {
@@ -2039,8 +2030,8 @@
         el.classList.remove('drop-zone-hint', 'drag-over-slot', 'drag-over-rail');
       });
     }
-
-    // =========================================================================
+  </script>
+  // =========================================================================
     // 4. WRAPPER DRAG & DROP, BUSBAR NETRAL & RENDERER MODUL MML
     // =========================================================================
     function wrapModuleSlot(m, innerHtml) {
@@ -2799,7 +2790,7 @@
           ${neutralBusbarHTML(id)}
         </div>`;
     }
-    // =========================================================================
+                         // =========================================================================
     // 5. RENDERER MODUL PRAKTIKUM IDL (SAKLAR, BOHLAM, SCHUKO, KAPASITOR)
     // =========================================================================
     function renderSingleSwitchPanel(m) {
@@ -3535,7 +3526,7 @@
       setStatus(`Modul <b>${srcId}</b> dipindahkan ke ${zone === 'floor' ? 'Meja Bawah' : 'Rak ' + (rowIdx + 1)}.`);
       rebuildAll();
     }
-    // =========================================================================
+        // =========================================================================
     // 8. INTERAKSI KABEL ANTI-HALANG SOKET, MODE TEMBUS [W] & TOOLBAR
     // =========================================================================
     const setStatus = html => { document.getElementById('status-message').innerHTML = html; };
@@ -3559,9 +3550,9 @@
       if (board) board.classList.toggle('wires-passthrough', state.wirePassThrough);
       if (btn) {
         btn.className = state.wirePassThrough
-          ? 'bg-sky-600 hover:bg-sky-500 text-white text-[11px] font-extrabold px-2 py-1 rounded border border-sky-300 shadow transition'
-          : 'bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-bold px-2 py-1 rounded border border-slate-600 transition';
-        btn.textContent = state.wirePassThrough ? '👁 Tembus Kabel: ON [W]' : '👁 Tembus Kabel [W]';
+          ? 'bg-sky-600 hover:bg-sky-500 text-white text-[10.5px] sm:text-[11px] font-extrabold px-2 py-1 rounded border border-sky-300 shadow transition shrink-0'
+          : 'bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10.5px] sm:text-[11px] font-bold px-2 py-1 rounded border border-slate-600 transition shrink-0';
+        btn.textContent = state.wirePassThrough ? '👁 Tembus: ON [W]' : '👁 Tembus [W]';
       }
       if (state.wirePassThrough) clearWireSelection();
       setStatus(state.wirePassThrough
@@ -3689,24 +3680,24 @@
     }
 
     function undoWire() {
-   if (historyIndex <= 0) {
-     setStatus('Sudah di langkah paling awal (tidak ada lagi yang bisa di-Undo).');
-     return;
-   }
-   historyIndex--;
-   restoreHistorySnapshot(historyStack[historyIndex]);
-   setStatus(`↩ Undo berhasil (langkah ${historyIndex}/${historyStack.length - 1}). Tekan <b>Ctrl+Y</b> untuk Redo.`);
- }
+      if (historyIndex <= 0) {
+        setStatus('Sudah di langkah paling awal (tidak ada lagi yang bisa di-Undo).');
+        return;
+      }
+      historyIndex--;
+      restoreHistorySnapshot(historyStack[historyIndex]);
+      setStatus(`↩ Undo berhasil (langkah ${historyIndex}/${historyStack.length - 1}). Tekan <b>Ctrl+Y</b> untuk Redo.`);
+    }
 
- function redoWire() {
-   if (historyIndex >= historyStack.length - 1) {
-     setStatus('Sudah di langkah paling akhir (tidak ada lagi yang bisa di-Redo).');
-     return;
-   }
-   historyIndex++;
-   restoreHistorySnapshot(historyStack[historyIndex]);
-   setStatus(`↪ Redo berhasil (langkah ${historyIndex}/${historyStack.length - 1}).`);
- }
+    function redoWire() {
+      if (historyIndex >= historyStack.length - 1) {
+        setStatus('Sudah di langkah paling akhir (tidak ada lagi yang bisa di-Redo).');
+        return;
+      }
+      historyIndex++;
+      restoreHistorySnapshot(historyStack[historyIndex]);
+      setStatus(`↪ Redo berhasil (langkah ${historyIndex}/${historyStack.length - 1}).`);
+    }
 
     function clearAllWires() {
       state.wires = [];
@@ -3767,8 +3758,10 @@
 
     function updateWireOpacity(val) {
       state.wireOpacity = parseInt(val, 10) / 100;
-      document.getElementById('wire-opacity-val').textContent = val + '%';
-      document.getElementById('wire-svg').style.opacity = state.wireOpacity;
+      const valEl = document.getElementById('wire-opacity-val');
+      if (valEl) valEl.textContent = val + '%';
+      const svg = document.getElementById('wire-svg');
+      if (svg) svg.style.opacity = state.wireOpacity;
     }
 
     function setZoom(z) {
@@ -3804,7 +3797,7 @@
     }
 
     // =========================================================================
-    // 9. RENDER KABEL SVG (AREA KLIK DIPANGKAS DI UJUNG SOKET) & DAFTAR KABEL
+    // 9. RENDER KABEL SVG & DAFTAR KABEL
     // =========================================================================
     function getJackCoords(jackId) {
       const board = document.getElementById('rack-board');
@@ -3818,78 +3811,52 @@
       };
     }
 
-    // Memotong ujung kurva Bezier pada area klik (.wire-hit) agar area di sekitar
-    // banana jack 100% bebas diklik meskipun banyak kabel menumpuk di soket tersebut.
-    function lerpPt(a, b, t) {
-      return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
-    }
-    function splitCubicRight(p0, p1, p2, p3, t) {
-      const q0 = lerpPt(p0, p1, t), q1 = lerpPt(p1, p2, t), q2 = lerpPt(p2, p3, t);
-      const r0 = lerpPt(q0, q1, t), r1 = lerpPt(q1, q2, t);
-      const s  = lerpPt(r0, r1, t);
-      return [s, r1, q2, p3];
-    }
-    function splitCubicLeft(p0, p1, p2, p3, t) {
-      const q0 = lerpPt(p0, p1, t), q1 = lerpPt(p1, p2, t), q2 = lerpPt(p2, p3, t);
-      const r0 = lerpPt(q0, q1, t), r1 = lerpPt(q1, q2, t);
-      const s  = lerpPt(r0, r1, t);
-      return [p0, q0, r0, s];
-    }
-    function buildTrimmedHitPath(p0, p1, p2, p3, dist) {
-      const margin = Math.min(0.24, 18 / Math.max(40, dist));
-      const right = splitCubicRight(p0, p1, p2, p3, margin);
-      const t2 = (1 - 2 * margin) / (1 - margin);
-      const mid = splitCubicLeft(right[0], right[1], right[2], right[3], Math.max(0.15, t2));
-      return `M ${mid[0].x.toFixed(1)} ${mid[0].y.toFixed(1)} C ${mid[1].x.toFixed(1)} ${mid[1].y.toFixed(1)}, ${mid[2].x.toFixed(1)} ${mid[2].y.toFixed(1)}, ${mid[3].x.toFixed(1)} ${mid[3].y.toFixed(1)}`;
-    }
-
     function renderWires() {
-   const board = document.getElementById('rack-board');
-   const svg = document.getElementById('wire-svg');
-   if (!board || !svg) return;
-   svg.setAttribute('width', board.offsetWidth);
-   svg.setAttribute('height', board.offsetHeight);
-   svg.style.opacity = state.wireOpacity;
+      const board = document.getElementById('rack-board');
+      const svg = document.getElementById('wire-svg');
+      if (!board || !svg) return;
+      svg.setAttribute('width', board.offsetWidth);
+      svg.setAttribute('height', board.offsetHeight);
+      svg.style.opacity = state.wireOpacity;
 
-   let normalHtml = '';
-   let selectedHtml = '';
-   state.wires.forEach((w, idx) => {
-     const p1 = getJackCoords(w.from), p2 = getJackCoords(w.to);
-     if (!p1 || !p2) return;
-     const dx = p2.x - p1.x, dy = p2.y - p1.y;
-     const dist = Math.hypot(dx, dy);
+      let normalHtml = '';
+      let selectedHtml = '';
+      state.wires.forEach((w, idx) => {
+        const p1 = getJackCoords(w.from), p2 = getJackCoords(w.to);
+        if (!p1 || !p2) return;
+        const dx = p2.x - p1.x, dy = p2.y - p1.y;
+        const dist = Math.hypot(dx, dy);
 
-     let d = '';
-     if (Math.abs(dx) < 28) {
-       // Kabel vertikal / sejajar atas-bawah: lengkungkan ke samping agar tidak tertutup soket
-       const side = idx % 2 === 0 ? -1 : 1;
-       const bulge = Math.max(28, Math.min(48, Math.abs(dy) * 0.55)) + (idx % 3) * 6;
-       const cx = (p1.x + p2.x) / 2 + side * bulge;
-       d = `M ${p1.x} ${p1.y} C ${cx} ${p1.y}, ${cx} ${p2.y}, ${p2.x} ${p2.y}`;
-     } else {
-       const droop = Math.min(95, Math.max(24, dist * 0.24)) + (idx % 4) * 5;
-       const cy = Math.max(p1.y, p2.y) + droop * 0.65;
-       d = `M ${p1.x} ${p1.y} C ${p1.x + dx * 0.25} ${cy}, ${p1.x + dx * 0.75} ${cy}, ${p2.x} ${p2.y}`;
-     }
+        let d = '';
+        if (Math.abs(dx) < 28) {
+          const side = idx % 2 === 0 ? -1 : 1;
+          const bulge = Math.max(28, Math.min(48, Math.abs(dy) * 0.55)) + (idx % 3) * 6;
+          const cx = (p1.x + p2.x) / 2 + side * bulge;
+          d = `M ${p1.x} ${p1.y} C ${cx} ${p1.y}, ${cx} ${p2.y}, ${p2.x} ${p2.y}`;
+        } else {
+          const droop = Math.min(95, Math.max(24, dist * 0.24)) + (idx % 4) * 5;
+          const cy = Math.max(p1.y, p2.y) + droop * 0.65;
+          d = `M ${p1.x} ${p1.y} C ${p1.x + dx * 0.25} ${cy}, ${p1.x + dx * 0.75} ${cy}, ${p2.x} ${p2.y}`;
+        }
 
-     const hex = COLOR_MAP[w.color]?.hex || '#e53935';
-     const isSel = w.id === state.selectedWireId;
-     const tip = `${idx + 1}. ${jackLabelMap[w.from] || w.from} → ${jackLabelMap[w.to] || w.to} (Klik = Pilih, Del/Backspace = Hapus)`;
-     const seg = `
-       <g class="wire-group ${isSel ? 'wire-selected' : ''}" onclick="event.stopPropagation(); selectWire(${w.id})">
-         <title>${tip}</title>
-         <path class="wire-shadow" d="${d}" transform="translate(0, 2.5)"/>
-         <path class="wire-halo" d="${d}"/>
-         <path class="wire-main" d="${d}" stroke="${hex}"/>
-         <path class="wire-hit" d="${d}"/>
-         <circle cx="${p1.x}" cy="${p1.y}" r="${isSel ? 5.8 : 4.2}" fill="${hex}" stroke="${isSel ? '#38bdf8' : '#0f172a'}" stroke-width="${isSel ? 2 : 1.2}" pointer-events="none"/>
-         <circle cx="${p2.x}" cy="${p2.y}" r="${isSel ? 5.8 : 4.2}" fill="${hex}" stroke="${isSel ? '#38bdf8' : '#0f172a'}" stroke-width="${isSel ? 2 : 1.2}" pointer-events="none"/>
-       </g>`;
-     if (isSel) selectedHtml += seg;
-     else normalHtml += seg;
-   });
-   svg.innerHTML = normalHtml + selectedHtml;
- }
+        const hex = COLOR_MAP[w.color]?.hex || '#e53935';
+        const isSel = w.id === state.selectedWireId;
+        const tip = `${idx + 1}. ${jackLabelMap[w.from] || w.from} → ${jackLabelMap[w.to] || w.to} (Klik = Pilih, Del/Backspace = Hapus)`;
+        const seg = `
+          <g class="wire-group ${isSel ? 'wire-selected' : ''}" onclick="event.stopPropagation(); selectWire(${w.id})">
+            <title>${tip}</title>
+            <path class="wire-shadow" d="${d}" transform="translate(0, 2.5)"/>
+            <path class="wire-halo" d="${d}"/>
+            <path class="wire-main" d="${d}" stroke="${hex}"/>
+            <path class="wire-hit" d="${d}"/>
+            <circle cx="${p1.x}" cy="${p1.y}" r="${isSel ? 5.8 : 4.2}" fill="${hex}" stroke="${isSel ? '#38bdf8' : '#0f172a'}" stroke-width="${isSel ? 2 : 1.2}" pointer-events="none"/>
+            <circle cx="${p2.x}" cy="${p2.y}" r="${isSel ? 5.8 : 4.2}" fill="${hex}" stroke="${isSel ? '#38bdf8' : '#0f172a'}" stroke-width="${isSel ? 2 : 1.2}" pointer-events="none"/>
+          </g>`;
+        if (isSel) selectedHtml += seg;
+        else normalHtml += seg;
+      });
+      svg.innerHTML = normalHtml + selectedHtml;
+    }
 
     function renderWireList() {
       const count = state.wires.length;
@@ -4068,8 +4035,8 @@
       state.alertMsg = msg;
       const banner = document.getElementById('alert-banner');
       banner.className = type === 'danger'
-        ? 'bg-red-600 text-white px-4 py-2 text-xs sm:text-sm font-extrabold flex items-center justify-between shadow-lg z-40 shrink-0'
-        : 'bg-amber-600 text-white px-4 py-2 text-xs sm:text-sm font-extrabold flex items-center justify-between shadow-lg z-40 shrink-0';
+        ? 'bg-red-600 text-white px-3 sm:px-4 py-2 text-xs sm:text-sm font-extrabold flex items-center justify-between gap-2 shadow-lg z-40 shrink-0'
+        : 'bg-amber-600 text-white px-3 sm:px-4 py-2 text-xs sm:text-sm font-extrabold flex items-center justify-between gap-2 shadow-lg z-40 shrink-0';
       document.getElementById('alert-banner-text').textContent = msg;
     }
 
@@ -4908,7 +4875,7 @@
       } else if (window.showSaveFilePicker) {
         txt.textContent = 'Mode Browser Modern • Simpan Langsung .faiz';
       } else {
-        txt.textContent = 'Mode Web • Simpan & Buka .faiz';
+        txt.textContent = 'Mode Web / Mobile • Simpan & Buka .faiz';
       }
     }
 
@@ -4916,7 +4883,6 @@
       const tag = document.activeElement?.tagName;
       const keyLower = e.key.toLowerCase();
 
-      // Shortcut Proyek (.faiz) selalu aktif
       if ((e.ctrlKey || e.metaKey) && keyLower === 's') {
         e.preventDefault();
         saveProject(e.shiftKey);
@@ -4939,7 +4905,6 @@
         return;
       }
 
-      // Abaikan shortcut papan saat layar intro sedang terbuka
       const introOpen = !document.getElementById('intro-screen').classList.contains('hidden');
       if (introOpen) return;
 
@@ -4952,17 +4917,17 @@
       }
 
       if ((e.ctrlKey || e.metaKey) && keyLower === 'z') {
-     e.preventDefault();
-     if (e.shiftKey) redoWire();
-     else undoWire();
-     return;
-   }
+        e.preventDefault();
+        if (e.shiftKey) redoWire();
+        else undoWire();
+        return;
+      }
 
-   if ((e.ctrlKey || e.metaKey) && keyLower === 'y') {
-     e.preventDefault();
-     redoWire();
-     return;
-   }
+      if ((e.ctrlKey || e.metaKey) && keyLower === 'y') {
+        e.preventDefault();
+        redoWire();
+        return;
+      }
 
       if (e.ctrlKey || e.metaKey || e.altKey) return;
 
@@ -4992,7 +4957,8 @@
 
     window.addEventListener('resize', () => setTimeout(renderWires, 100));
     window.addEventListener('beforeunload', () => { runAutoSave(false); });
-   let startupFileLoaded = false;
+
+    let startupFileLoaded = false;
 
     async function checkStartupFaizFile() {
       if (startupFileLoaded || !window.pywebview?.api?.get_startup_file) return;
@@ -5023,377 +4989,6 @@
       autoSaveInterval = setInterval(() => runAutoSave(false), 60000);
       checkStartupFaizFile();
     });
-  </script>
-  <!-- ===================================================================== -->
-  <!-- PATCH ANDROID & LAYAR SENTUH (TOMBOL PINDAH MODUL, PUSH BUTTON, .FAIZ) -->
-  <!-- ===================================================================== -->
-  <style>
-    .pudak-panel, .jack, .pb-housing, .rocker-btn, .module-slot {
-      -webkit-user-select: none;
-      user-select: none;
-      -webkit-touch-callout: none;
-      touch-action: manipulation;
-    }
-    .module-slot { position: relative; }
-    .mobile-move-bar {
-      position: absolute;
-      top: 4px;
-      left: 6px;
-      z-index: 45;
-      display: flex;
-      gap: 2px;
-      background: rgba(15, 23, 42, 0.82);
-      padding: 2px 3px;
-      border-radius: 6px;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-    }
-    .mobile-move-btn {
-      width: 20px;
-      height: 20px;
-      font-size: 10px;
-      line-height: 1;
-      font-weight: 800;
-      color: #f8fafc;
-      background: #1e293b;
-      border: 1px solid #475569;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-    .mobile-move-btn:active {
-      background: #0284c7;
-      transform: scale(0.92);
-    }
-    @media (pointer: coarse), (max-width: 1024px) {
-      .jack::after { inset: -4px !important; }
-      #rack-viewport {
-        -webkit-overflow-scrolling: touch;
-        touch-action: pan-x pan-y pinch-zoom;
-      }
-    }
-  </style>
-
-  <script>
-    (function initAndroidTouchPatch() {
-      const isNativeAndroid = () => Boolean(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
-      const isTouchDevice = () => isNativeAndroid() || window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
-
-      // 1. Fungsi pindah modul dengan sentuhan jari (pengganti drag & drop mouse)
-      window.mobileMoveModule = function (modId, dir) {
-        if (!state.instances || !state.instances[modId]) return;
-        let containerType = 'rack';
-        let rIdx = -1;
-        let pos = -1;
-
-        for (let r = 0; r < state.rows.length; r++) {
-          const i = state.rows[r].indexOf(modId);
-          if (i !== -1) { rIdx = r; pos = i; break; }
-        }
-        if (rIdx === -1) {
-          pos = state.floor.indexOf(modId);
-          if (pos === -1) return;
-          containerType = 'floor';
-        }
-
-        const arr = containerType === 'floor' ? state.floor : state.rows[rIdx];
-
-        if (dir === 'left' && pos > 0) {
-          [arr[pos - 1], arr[pos]] = [arr[pos], arr[pos - 1]];
-        } else if (dir === 'right' && pos < arr.length - 1) {
-          [arr[pos + 1], arr[pos]] = [arr[pos], arr[pos + 1]];
-        } else if (dir === 'up') {
-          if (containerType === 'floor') {
-            state.floor.splice(pos, 1);
-            state.rows[2].push(modId);
-            state.instances[modId].zone = 'rack';
-          } else if (rIdx > 0) {
-            state.rows[rIdx].splice(pos, 1);
-            state.rows[rIdx - 1].push(modId);
-            state.instances[modId].zone = 'rack';
-          } else return;
-        } else if (dir === 'down') {
-          if (containerType === 'rack' && rIdx < 2) {
-            state.rows[rIdx].splice(pos, 1);
-            state.rows[rIdx + 1].push(modId);
-            state.instances[modId].zone = 'rack';
-          } else if (containerType === 'rack' && rIdx === 2) {
-            state.rows[2].splice(pos, 1);
-            state.floor.push(modId);
-            state.instances[modId].zone = 'floor';
-          } else return;
-        } else return;
-
-        markDirty();
-        rebuildAll();
-        setStatus(`Modul <b>${modId}</b> dipindahkan.`);
-      };
-
-      // 2. Pasang tombol pindah modul & perbaiki sentuhan tahan pada Push Button
-      function applyTouchEnhancements() {
-        document.querySelectorAll('[ondragstart*="onModDragStart"]').forEach(slot => {
-          if (slot.querySelector('.mobile-move-bar')) return;
-          const attr = slot.getAttribute('ondragstart') || '';
-          const match = attr.match(/onModDragStart\(event,\s*'([^']+)'\)/);
-          if (!match) return;
-          const modId = match[1];
-          const bar = document.createElement('div');
-          bar.className = 'mobile-move-bar';
-          bar.innerHTML = `
-            <button type="button" class="mobile-move-btn" title="Geser Kiri"  onclick="event.stopPropagation(); mobileMoveModule('${modId}','left')">◀</button>
-            <button type="button" class="mobile-move-btn" title="Geser Kanan" onclick="event.stopPropagation(); mobileMoveModule('${modId}','right')">▶</button>
-            <button type="button" class="mobile-move-btn" title="Pindah Rak Atas"  onclick="event.stopPropagation(); mobileMoveModule('${modId}','up')">▲</button>
-            <button type="button" class="mobile-move-btn" title="Pindah Rak Bawah" onclick="event.stopPropagation(); mobileMoveModule('${modId}','down')">▼</button>
-          `;
-          slot.appendChild(bar);
-        });
-
-        // Push Button ramah layar sentuh (tahan jari tanpa muncul menu klik kanan)
-        Object.values(state.instances || {}).filter(m => m.type === 'PB').forEach(m => {
-          ['a', 'b'].forEach(ch => {
-            const btn = document.getElementById(`${m.id}-btn-${ch}`);
-            if (!btn || btn.dataset.touchBound) return;
-            btn.dataset.touchBound = '1';
-            btn.addEventListener('contextmenu', e => e.preventDefault());
-            btn.addEventListener('touchstart', e => { e.preventDefault(); pressPB(m.id, ch, true); }, { passive: false });
-            btn.addEventListener('touchend', e => { e.preventDefault(); pressPB(m.id, ch, false); }, { passive: false });
-            btn.addEventListener('touchcancel', () => pressPB(m.id, ch, false));
-          });
-        });
-      }
-
-      if (typeof window.buildRack === 'function') {
-        const origBuildRack = window.buildRack;
-        window.buildRack = function () {
-          origBuildRack.apply(this, arguments);
-          applyTouchEnhancements();
-        };
-      }
-
-      // 3. Simpan & Bagikan file .faiz secara native di APK Android
-      if (typeof window.saveProject === 'function') {
-        const origSaveProject = window.saveProject;
-        window.saveProject = async function (forceSaveAs = false) {
-          if (isNativeAndroid() && window.Capacitor?.Plugins?.Filesystem && window.Capacitor?.Plugins?.Share) {
-            try {
-              const baseName = (state.projectName || 'Proyek_Pudak.faiz').replace(/\.faiz$/i, '') + '.faiz';
-              const payload = JSON.stringify(serializeProject(baseName), null, 2);
-              const { Filesystem, Share } = window.Capacitor.Plugins;
-              const written = await Filesystem.writeFile({
-                path: baseName,
-                data: payload,
-                directory: 'CACHE',
-                encoding: 'utf8'
-              });
-              state.isDirty = false;
-              updateProjectHeaderUI();
-              await Share.share({
-                title: baseName,
-                text: 'File proyek PT980410 Simulation (.faiz)',
-                url: written.uri,
-                dialogTitle: 'Simpan ke HP atau Kirim File .faiz'
-              });
-              setStatus(`File <b>${baseName}</b> siap disimpan / dibagikan.`);
-              return;
-            } catch (err) {
-              setStatus('Gagal menyimpan di Android: ' + (err?.message || err));
-              return;
-            }
-          }
-          return origSaveProject.apply(this, arguments);
-        };
-      }
-
-      // 4. Tambah tombol Redo di toolbar, perbaiki file picker Android & atur layout HP
-      window.addEventListener('load', () => {
-        const undoBtn = document.querySelector('button[onclick*="undoWire"]');
-        if (undoBtn && typeof window.redoWire === 'function' && !document.getElementById('btn-redo-touch')) {
-          const redoBtn = document.createElement('button');
-          redoBtn.id = 'btn-redo-touch';
-          redoBtn.type = 'button';
-          redoBtn.className = undoBtn.className;
-          redoBtn.textContent = '↪ Redo';
-          redoBtn.title = 'Redo (Ctrl+Y)';
-          redoBtn.onclick = () => redoWire();
-          undoBtn.insertAdjacentElement('afterend', redoBtn);
-        }
-
-        // Pastikan file .faiz tidak abu-abu saat dibuka dari File Manager Android
-        document.querySelectorAll('input[type="file"]').forEach(inp => {
-          inp.setAttribute('accept', '*/*');
-        });
-
-        applyTouchEnhancements();
-
-        if (isTouchDevice()) {
-          if (state.sidebarOpen && typeof window.toggleSidebar === 'function') {
-            toggleSidebar();
-          }
-          if (typeof window.setZoom === 'function') {
-            setZoom(0.6);
-          }
-          const envTxt = document.getElementById('intro-env-text');
-          if (envTxt && isNativeAndroid()) {
-            envTxt.textContent = 'Mode Android (.apk) • Offline + Simpan/Bagikan .faiz';
-          }
-        }
-      });
-    })();
-  </script>
-  <!-- ===================================================================== -->
-  <!-- PATCH ZOOM MUDAH (PINCH 2 JARI + TOMBOL MELAYANG + CTRL SCROLL)       -->
-  <!-- ===================================================================== -->
-  <style>
-    #floating-zoom-bar {
-      position: fixed;
-      right: 14px;
-      bottom: 14px;
-      z-index: 90;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      border-radius: 999px;
-      padding: 5px 8px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(6px);
-      -webkit-user-select: none;
-      user-select: none;
-    }
-    .fz-btn {
-      min-width: 34px;
-      height: 34px;
-      padding: 0 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      background: #1e293b;
-      color: #f8fafc;
-      font-size: 15px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-    .fz-btn:active {
-      background: #0284c7;
-      transform: scale(0.93);
-    }
-    #fz-label {
-      min-width: 48px;
-      text-align: center;
-      font-size: 12px;
-      font-weight: 700;
-      color: #38bdf8;
-      font-family: ui-monospace, monospace;
-      cursor: pointer;
-    }
-  </style>
-
-  <script>
-    (function initEasyZoomPatch() {
-      const MIN_Z = 0.35;
-      const MAX_Z = 2.0;
-
-      function getCurrentZoom() {
-        if (window.state && typeof window.state.zoom === 'number') return window.state.zoom;
-        const board = document.getElementById('rack-board');
-        const m = (board?.style?.transform || '').match(/scale\(([\d.]+)\)/);
-        return m ? parseFloat(m[1]) : 1;
-      }
-
-      function applyZoom(val) {
-        const clamped = Math.round(Math.min(MAX_Z, Math.max(MIN_Z, val)) * 100) / 100;
-        if (typeof window.setZoom === 'function') {
-          window.setZoom(clamped);
-        } else {
-          const board = document.getElementById('rack-board');
-          if (board) {
-            board.style.transformOrigin = 'top left';
-            board.style.transform = `scale(${clamped})`;
-          }
-          if (window.state) window.state.zoom = clamped;
-          if (typeof window.renderWires === 'function') setTimeout(window.renderWires, 30);
-        }
-        updateZoomLabel(clamped);
-      }
-
-      function fitBoardToScreen() {
-        const vp = document.getElementById('rack-viewport');
-        const board = document.getElementById('rack-board');
-        if (!vp || !board) return applyZoom(0.75);
-        const bw = board.offsetWidth || 1200;
-        const fit = (vp.clientWidth - 24) / bw;
-        applyZoom(Math.min(1.1, Math.max(0.45, fit)));
-      }
-
-      function updateZoomLabel(z) {
-        const lbl = document.getElementById('fz-label');
-        if (lbl) lbl.textContent = `${Math.round(z * 100)}%`;
-      }
-
-      window.addEventListener('load', () => {
-        // 1. Buat tombol zoom melayang di pojok kanan bawah
-        if (!document.getElementById('floating-zoom-bar')) {
-          const bar = document.createElement('div');
-          bar.id = 'floating-zoom-bar';
-          bar.innerHTML = `
-            <button type="button" class="fz-btn" id="fz-out" title="Perkecil">−</button>
-            <span id="fz-label" title="Ketuk untuk 100%">100%</span>
-            <button type="button" class="fz-btn" id="fz-in" title="Perbesar">+</button>
-            <button type="button" class="fz-btn" id="fz-fit" style="font-size:11px;" title="Pas Layar">Fit</button>
-          `;
-          document.body.appendChild(bar);
-
-          document.getElementById('fz-out').onclick = () => applyZoom(getCurrentZoom() - 0.15);
-          document.getElementById('fz-in').onclick  = () => applyZoom(getCurrentZoom() + 0.15);
-          document.getElementById('fz-label').onclick = () => applyZoom(1.0);
-          document.getElementById('fz-fit').onclick = fitBoardToScreen;
-          updateZoomLabel(getCurrentZoom());
-        }
-
-        const vp = document.getElementById('rack-viewport');
-        if (!vp) return;
-
-        // 2. Pinch-to-Zoom 2 jari untuk layar sentuh Android
-        let pinchStartDist = 0;
-        let pinchStartZoom = 1;
-
-        vp.addEventListener('touchstart', (e) => {
-          if (e.touches.length === 2) {
-            const dx = e.touches[0].clientX - e.touches[1].clientX;
-            const dy = e.touches[0].clientY - e.touches[1].clientY;
-            pinchStartDist = Math.hypot(dx, dy);
-            pinchStartZoom = getCurrentZoom();
-          }
-        }, { passive: true });
-
-        vp.addEventListener('touchmove', (e) => {
-          if (e.touches.length === 2 && pinchStartDist > 0) {
-            e.preventDefault();
-            const dx = e.touches[0].clientX - e.touches[1].clientX;
-            const dy = e.touches[0].clientY - e.touches[1].clientY;
-            const ratio = Math.hypot(dx, dy) / pinchStartDist;
-            applyZoom(pinchStartZoom * ratio);
-          }
-        }, { passive: false });
-
-        vp.addEventListener('touchend', (e) => {
-          if (e.touches.length < 2) pinchStartDist = 0;
-        });
-
-        // 3. Ctrl + Scroll Mouse untuk zoom cepat di PC
-        vp.addEventListener('wheel', (e) => {
-          if (e.ctrlKey) {
-            e.preventDefault();
-            const step = e.deltaY < 0 ? 0.1 : -0.1;
-            applyZoom(getCurrentZoom() + step);
-          }
-        }, { passive: false });
-      });
-    })();
   </script>
 </body>
 </html>
